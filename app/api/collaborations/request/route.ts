@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -11,7 +11,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { collaborationId, message } = await request.json()
+    const body = (await req.json()) as {
+      collaborationId?: string
+      message?: string
+    }
+    const { collaborationId, message } = body
 
     if (!collaborationId) {
       return NextResponse.json(

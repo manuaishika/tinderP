@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { UserProfile } from '@/components/profile/UserProfile'
 import { stringToArray } from '@/lib/json-helpers'
+import { transformPapers, transformPaper } from '@/lib/paper-helpers'
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions)
@@ -45,10 +46,18 @@ export default async function ProfilePage() {
     return <div>User not found</div>
   }
 
-  // Transform user data to include parsed interests
+  // Transform user data to include parsed interests and transform papers
   const userWithInterests = {
     ...user,
     interests: stringToArray(user.interests),
+    likedPapers: user.likedPapers.map((lp) => ({
+      ...lp,
+      paper: transformPaper(lp.paper),
+    })),
+    savedPapers: user.savedPapers.map((sp) => ({
+      ...sp,
+      paper: transformPaper(sp.paper),
+    })),
   }
 
   return (

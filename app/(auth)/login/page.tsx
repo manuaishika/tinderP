@@ -27,7 +27,7 @@ export default function LoginPage() {
       if (result?.error) {
         setError('Invalid email or password')
       } else {
-        router.push('/feed')
+        router.push('/dashboard')
       }
     } catch (err) {
       setError('Something went wrong. Please try again.')

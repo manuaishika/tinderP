@@ -28,9 +28,10 @@ export async function POST(request: Request) {
 
     // Build search query from user interests if available
     let query = searchQuery
-    if (!query && user?.interests.length > 0) {
+    const interests = user?.interests ?? []
+    if (!query && interests.length > 0) {
       // Use first interest as search term
-      query = user.interests[0]
+      query = interests[0]
     }
 
     // Fetch recent papers from ArXiv

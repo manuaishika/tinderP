@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { PaperSwipe } from '@/components/paper/PaperSwipe'
 import { transformPapers } from '@/lib/paper-helpers'
+import { FetchArxivButton } from '@/components/paper/FetchArxivButton'
 
 export default async function SwipePage() {
   const session = await getServerSession(authOptions)
@@ -56,5 +57,3 @@ export default async function SwipePage() {
     </div>
   )
 }
-
-import { FetchArxivButton } from '@/components/paper/FetchArxivButton'

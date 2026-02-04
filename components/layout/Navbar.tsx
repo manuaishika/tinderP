@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
-import { Home, MessageSquare, Users, BookOpen, User, LogOut, Sparkles } from 'lucide-react'
+import { Home, MessageSquare, Users, BookOpen, User, LogOut, Sparkles, Calendar, Mail } from 'lucide-react'
 
 export function Navbar() {
   const { data: session } = useSession()
@@ -12,12 +12,14 @@ export function Navbar() {
   if (!session) return null
 
   const navItems = [
-    { href: '/feed', label: 'Feed', icon: Home },
+    { href: '/dashboard', label: 'Dashboard', icon: Home },
     { href: '/swipe', label: 'Swipe', icon: BookOpen },
+    { href: '/collection', label: 'Collection', icon: BookOpen },
     { href: '/discussions', label: 'Discussions', icon: MessageSquare },
     { href: '/collaborations', label: 'Collaborate', icon: Users },
+    { href: '/conferences', label: 'Conferences', icon: Calendar },
+    { href: '/opportunities', label: 'Opportunities', icon: Mail },
     { href: '/recommendations', label: 'Recommendations', icon: Sparkles },
-    { href: '/admin/import', label: 'Import', icon: BookOpen },
   ]
 
   return (
@@ -26,7 +28,7 @@ export function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/feed" className="text-2xl font-bold text-indigo-600">
+              <Link href="/dashboard" className="text-2xl font-bold text-indigo-600">
                 TinderP
               </Link>
             </div>

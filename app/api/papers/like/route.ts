@@ -38,6 +38,31 @@ export async function POST(request: Request) {
       },
     })
 
+    // If liked, also save to collection
+    if (liked) {
+      await prisma.savedPaper.upsert({
+        where: {
+          userId_paperId: {
+            userId: session.user.id,
+            paperId,
+          },
+        },
+        update: {},
+        create: {
+          userId: session.user.id,
+          paperId,
+        },
+      })
+    } else {
+      // Remove from collection if unliked
+      await prisma.savedPaper.deleteMany({
+        where: {
+          userId: session.user.id,
+          paperId,
+        },
+      })
+    }
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Error saving like:', error)
