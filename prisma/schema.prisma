@@ -57,6 +57,7 @@ model Paper {
   saves         SavedPaper[]
   comments      Comment[]
   recommendations Recommendation[]
+  activities    Activity[]
 }
 
 model PaperLike {
@@ -180,6 +181,7 @@ model Activity {
   createdAt DateTime @default(now())
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paper     Paper?   @relation(fields: [paperId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([createdAt])
