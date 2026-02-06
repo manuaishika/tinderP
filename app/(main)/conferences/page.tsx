@@ -1,16 +1,7 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
-import { redirect } from 'next/navigation'
 import { Calendar, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function ConferencesPage() {
-  const session = await getServerSession(authOptions)
-
-  if (!session) {
-    redirect('/login')
-  }
-
   const conferences = {
     'Machine Learning & AI': [
       {
@@ -178,8 +169,15 @@ export default async function ConferencesPage() {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Conferences & Journals</h1>
-        <p className="text-gray-600 text-lg">
-          Browse upcoming conferences, workshops, and journals organized by category
+        <p className="text-gray-600 text-lg mb-2">
+          Browse upcoming conferences, workshops, and journals organized by category.
+        </p>
+        <p className="text-gray-500 text-sm">
+          You don&apos;t need an account to explore this list.{' '}
+          <Link href="/register" className="text-indigo-600 hover:text-indigo-700 font-medium">
+            Sign up
+          </Link>{' '}
+          if you want to save conferences and track deadlines.
         </p>
       </div>
 

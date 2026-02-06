@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 import { arrayToString } from '@/lib/json-helpers'
+import { Prisma } from '@prisma/client'
 
 const registerSchema = z.object({
   name: z.string().min(1),
@@ -60,9 +61,26 @@ export async function POST(request: Request) {
       )
     }
 
+    // Handle unique constraint errors (email/username)
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return NextResponse.json(
+          { error: 'User with this email or username already exists' },
+          { status: 400 }
+        )
+      }
+    }
+
     console.error('Registration error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Internal server error',
+        // In development, include message to help debug
+        detail:
+          process.env.NODE_ENV !== 'production' && error instanceof Error
+            ? error.message
+            : undefined,
+      },
       { status: 500 }
     )
   }

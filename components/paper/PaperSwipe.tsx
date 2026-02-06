@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, PanInfo } from 'framer-motion'
 import { X, Heart, BookOpen, ExternalLink } from 'lucide-react'
 import { PaperCard } from './PaperCard'
 
@@ -101,6 +101,17 @@ export function PaperSwipe({ initialPapers, userId }: PaperSwipeProps) {
     }, 300)
   }
 
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const threshold = 100
+    if (info.offset.x > threshold) {
+      // Swiped right
+      handleSwipe(true)
+    } else if (info.offset.x < -threshold) {
+      // Swiped left
+      handleSwipe(false)
+    }
+  }
+
   if (!currentPaper) {
     return (
       <div className="text-center py-12">
@@ -124,30 +135,34 @@ export function PaperSwipe({ initialPapers, userId }: PaperSwipeProps) {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentPaper.id}
-          initial={{ 
-            opacity: 0, 
+          initial={{
+            opacity: 0,
             x: direction * 300,
             scale: 0.9,
-            rotateY: direction * 15
+            rotateY: direction * 15,
           }}
-          animate={{ 
-            opacity: 1, 
+          animate={{
+            opacity: 1,
             x: 0,
             scale: 1,
-            rotateY: 0
+            rotateY: 0,
           }}
-          exit={{ 
-            opacity: 0, 
+          exit={{
+            opacity: 0,
             x: direction * -300,
             scale: 0.9,
-            rotateY: direction * -15
+            rotateY: direction * -15,
           }}
-          transition={{ 
+          transition={{
             duration: 0.4,
             ease: [0.4, 0, 0.2, 1],
-            opacity: { duration: 0.3 }
+            opacity: { duration: 0.3 },
           }}
-          className="absolute inset-0"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={handleDragEnd}
+          className="absolute inset-0 cursor-grab active:cursor-grabbing"
         >
           <PaperCard paper={currentPaper} />
         </motion.div>

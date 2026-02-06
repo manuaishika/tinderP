@@ -129,6 +129,18 @@ export default async function DashboardPage() {
             >
               Opportunities
             </Link>
+            <Link
+              href="/compare"
+              className="block text-indigo-600 hover:text-indigo-700 font-medium"
+            >
+              Compare Papers
+            </Link>
+            <Link
+              href="/critique"
+              className="block text-indigo-600 hover:text-indigo-700 font-medium"
+            >
+              Critique Research Ideas
+            </Link>
           </div>
         </div>
       </div>
