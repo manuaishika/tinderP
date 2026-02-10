@@ -52,7 +52,7 @@ export function Navbar() {
                 href={session ? '/dashboard' : '/'}
                 className="text-2xl font-bold text-indigo-600"
               >
-                TinderP
+                Paper Platform
               </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">

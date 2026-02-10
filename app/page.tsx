@@ -1,11 +1,10 @@
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { getSafeServerSession } from '@/lib/safe-session'
 import Link from 'next/link'
 import { BookOpen, MessageSquare, Users, Sparkles, Heart, ArrowRight, Calendar, Mail } from 'lucide-react'
 
 export default async function Home() {
-  const session = await getServerSession(authOptions)
+  const session = await getSafeServerSession()
 
   if (session) {
     redirect('/dashboard')
