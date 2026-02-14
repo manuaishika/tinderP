@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { PaperSwipe } from '@/components/paper/PaperSwipe'
 import { transformPapers } from '@/lib/paper-helpers'
@@ -13,33 +14,59 @@ export default async function SwipePage() {
     redirect('/login')
   }
 
-  // Get papers user hasn't interacted with
-  const userLikes = await prisma.paperLike.findMany({
-    where: { userId: session.user.id },
-    select: { paperId: true },
-  })
+  let papers: any[] = []
+  let dbError: string | null = null
 
-  const likedPaperIds = userLikes.map((l) => l.paperId)
+  try {
+    // Get papers user hasn't interacted with
+    const userLikes = await prisma.paperLike.findMany({
+      where: { userId: session.user.id },
+      select: { paperId: true },
+    })
 
-  // Get papers to swipe on
-  let papers = await prisma.paper.findMany({
-    where: {
-      id: { notIn: likedPaperIds },
-    },
-    include: {
-      likes: {
-        where: { liked: true },
+    const likedPaperIds = userLikes.map((l) => l.paperId)
+
+    // Get papers to swipe on
+    papers = await prisma.paper.findMany({
+      where: {
+        id: { notIn: likedPaperIds },
       },
-    },
-    take: 20,
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
+      include: {
+        likes: {
+          where: { liked: true },
+        },
+      },
+      take: 20,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+  } catch (error: any) {
+    console.error('Database error in swipe page:', error)
+    dbError = error.message || 'Database connection failed'
+  }
 
-  // If no papers in database, fetch from ArXiv
-  if (papers.length === 0) {
-    // This will be handled client-side to show a message
+  if (dbError) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+          <h2 className="text-xl font-semibold text-red-900 mb-2">
+            Database Connection Error
+          </h2>
+          <p className="text-red-700 mb-4">
+            {dbError.includes('SQLite') || dbError.includes('file:')
+              ? "SQLite doesn't work on Vercel. You need to use PostgreSQL. Check /api/status for details."
+              : dbError}
+          </p>
+          <Link
+            href="/api/status"
+            className="text-indigo-600 hover:text-indigo-700 font-medium"
+          >
+            Check Status →
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (

@@ -12,47 +12,79 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    include: {
-      _count: {
-        select: {
-          likedPapers: true,
-          savedPapers: true,
-          comments: true,
-          collaborations: true,
-          followers: true,
-          following: true,
-        },
-      },
-    },
-  })
+  let user = null
+  let activities: any[] = []
+  let dbError: string | null = null
 
-  const activities = await prisma.activity.findMany({
-    where: {
-      userId: session.user.id,
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          username: true,
-          avatar: true,
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      include: {
+        _count: {
+          select: {
+            likedPapers: true,
+            savedPapers: true,
+            comments: true,
+            collaborations: true,
+            followers: true,
+            following: true,
+          },
         },
       },
-      paper: {
-        select: {
-          id: true,
-          title: true,
+    })
+
+    activities = await prisma.activity.findMany({
+      where: {
+        userId: session.user.id,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            avatar: true,
+          },
+        },
+        paper: {
+          select: {
+            id: true,
+            title: true,
+          },
         },
       },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 20,
-  })
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+    })
+  } catch (error: any) {
+    console.error('Database error in dashboard:', error)
+    dbError = error.message || 'Database connection failed'
+  }
+
+  if (dbError) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+          <h2 className="text-xl font-semibold text-red-900 mb-2">
+            Database Connection Error
+          </h2>
+          <p className="text-red-700 mb-4">
+            {dbError.includes('SQLite') || dbError.includes('file:')
+              ? "SQLite doesn't work on Vercel. You need to use PostgreSQL. Check /api/status for details."
+              : dbError}
+          </p>
+          <Link
+            href="/api/status"
+            className="text-indigo-600 hover:text-indigo-700 font-medium"
+          >
+            Check Status →
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -69,19 +101,19 @@ export default async function DashboardPage() {
         <div className="bg-white rounded-xl shadow p-6">
           <p className="text-sm text-gray-500 mb-1">Saved Papers</p>
           <p className="text-3xl font-bold text-gray-900">
-            {user?._count.savedPapers ?? 0}
+            {user?._count?.savedPapers ?? 0}
           </p>
         </div>
         <div className="bg-white rounded-xl shadow p-6">
           <p className="text-sm text-gray-500 mb-1">Liked Papers</p>
           <p className="text-3xl font-bold text-gray-900">
-            {user?._count.likedPapers ?? 0}
+            {user?._count?.likedPapers ?? 0}
           </p>
         </div>
         <div className="bg-white rounded-xl shadow p-6">
           <p className="text-sm text-gray-500 mb-1">Comments</p>
           <p className="text-3xl font-bold text-gray-900">
-            {user?._count.comments ?? 0}
+            {user?._count?.comments ?? 0}
           </p>
         </div>
       </div>

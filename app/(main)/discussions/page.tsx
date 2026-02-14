@@ -13,8 +13,12 @@ export default async function DiscussionsPage() {
     redirect('/login')
   }
 
-  // Get all discussions (papers with comments)
-  const papersWithComments = await prisma.paper.findMany({
+  let papersWithComments: any[] = []
+  let dbError: string | null = null
+
+  try {
+    // Get all discussions (papers with comments)
+    papersWithComments = await prisma.paper.findMany({
     include: {
       comments: {
         include: {
@@ -61,7 +65,34 @@ export default async function DiscussionsPage() {
       },
     },
     take: 50,
-  })
+    })
+  } catch (error: any) {
+    console.error('Database error in discussions page:', error)
+    dbError = error.message || 'Database connection failed'
+  }
+
+  if (dbError) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+          <h2 className="text-xl font-semibold text-red-900 mb-2">
+            Database Connection Error
+          </h2>
+          <p className="text-red-700 mb-4">
+            {dbError.includes('SQLite') || dbError.includes('file:')
+              ? "SQLite doesn't work on Vercel. You need to use PostgreSQL. Check /api/status for details."
+              : dbError}
+          </p>
+          <Link
+            href="/api/status"
+            className="text-indigo-600 hover:text-indigo-700 font-medium"
+          >
+            Check Status →
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   // Get general discussions (not tied to specific papers) - we'll need to add this feature
   // For now, we'll show paper discussions
