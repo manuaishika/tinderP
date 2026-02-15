@@ -3,8 +3,6 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 
 export const authOptions: NextAuthOptions = {
-  // Helps on Vercel if NEXTAUTH_URL is not set correctly yet.
-  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
