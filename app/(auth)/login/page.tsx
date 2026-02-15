@@ -37,14 +37,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary/10">
+      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-2xl shadow-2xl">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to TinderP
+          <h2 className="mt-6 text-center text-4xl font-extrabold text-primary-dark">
+            Welcome Back
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Discover, discuss, and collaborate on academic papers
+            Sign in to continue discovering research papers
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -92,7 +92,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-bold rounded-xl text-white bg-primary hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-all shadow-lg"
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
@@ -101,9 +101,9 @@ export default function LoginPage() {
           <div className="text-center">
             <Link
               href="/register"
-              className="text-sm text-indigo-600 hover:text-indigo-500"
+              className="text-sm text-primary hover:text-primary-light font-semibold"
             >
-              Don&apos;t have an account? Sign up
+              Don&apos;t have an account? Sign up free →
             </Link>
           </div>
         </form>
