@@ -123,7 +123,7 @@ export default async function Home() {
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
                 Browse through thousands of papers from ArXiv with an intuitive swipe interface. 
                 Right swipe saves to your collection, left swipe moves to the next paper. 
-                It's research discovery made simple and fun.
+                It&apos;s research discovery made simple and fun.
               </p>
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-4">
