@@ -98,10 +98,16 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <div className="text-center">
+          <div className="text-center space-y-2">
+            <Link
+              href="/forgot-password"
+              className="text-sm text-gray-600 hover:text-primary block"
+            >
+              Forgot your password?
+            </Link>
             <Link
               href="/register"
-              className="text-sm text-primary hover:text-primary-light font-semibold"
+              className="text-sm text-primary hover:text-primary-light font-semibold block"
             >
               Don&apos;t have an account? Sign up free →
             </Link>

@@ -75,38 +75,35 @@ export default async function Home() {
               Start Swiping Free <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              href="#preview"
+              href="/conferences"
               className="px-8 py-4 bg-white text-primary rounded-xl font-bold hover:bg-gray-50 transition-all shadow-xl border-2 border-primary text-lg"
             >
-              See How It Works
+              Browse Conferences
             </Link>
           </div>
         </div>
 
-        {/* Scrolling Features Marquee */}
-        <div className="mb-20 overflow-hidden" id="preview">
+        {/* Features Grid */}
+        <div className="mb-20" id="features">
           <h2 className="text-3xl font-bold text-center text-primary-dark mb-8">
             Everything You Need in One Platform
           </h2>
-          <div className="relative">
-            <div className="flex animate-slide-left">
-              {/* Duplicate for seamless loop */}
-              {[...features, ...features].map((feature, idx) => {
-                const Icon = feature.icon
-                return (
-                  <div
-                    key={idx}
-                    className="flex-shrink-0 w-80 mx-4 bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all hover:scale-105"
-                  >
-                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}>
-                      <Icon className="w-8 h-8 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                    <p className="text-gray-600">{feature.description}</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, idx) => {
+              const Icon = feature.icon
+              return (
+                <div
+                  key={idx}
+                  className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all hover:scale-105 border-t-4 border-primary"
+                >
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <Icon className="w-7 h-7 text-primary" />
                   </div>
-                )
-              })}
-            </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
 
@@ -114,9 +111,6 @@ export default async function Home() {
         <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 mb-20" id="demo">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full text-primary font-semibold text-sm">
-                ❤️ Our Core Feature
-              </div>
               <h2 className="text-4xl md:text-5xl font-bold text-primary-dark mb-6">
                 Swipe Through Papers
               </h2>
@@ -253,7 +247,10 @@ export default async function Home() {
             <span className="text-primary font-semibold text-sm">Explore Now →</span>
           </Link>
 
-          <div className="group bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl shadow-lg p-6 border-l-4 border-primary">
+          <Link
+            href="/register"
+            className="group bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all hover:scale-105 border-l-4 border-primary cursor-pointer"
+          >
             <div className="flex items-center gap-3 mb-4">
               <BookOpen className="w-6 h-6 text-primary" />
               <h3 className="text-xl font-bold text-gray-900">Collection</h3>
@@ -261,30 +258,36 @@ export default async function Home() {
             <p className="text-gray-600 mb-2">
               Save and organize your favorite papers
             </p>
-            <span className="text-gray-500 text-sm">Sign up to access</span>
-          </div>
+            <span className="text-primary font-semibold text-sm">Sign up to start →</span>
+          </Link>
 
-          <div className="group bg-gradient-to-br from-accent/5 to-accent/10 rounded-xl shadow-lg p-6 border-l-4 border-accent">
+          <Link
+            href="/register"
+            className="group bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all hover:scale-105 border-l-4 border-primary cursor-pointer"
+          >
             <div className="flex items-center gap-3 mb-4">
-              <MessageSquare className="w-6 h-6 text-accent" />
+              <MessageSquare className="w-6 h-6 text-primary" />
               <h3 className="text-xl font-bold text-gray-900">Discussions</h3>
             </div>
             <p className="text-gray-600 mb-2">
               Join conversations about research papers
             </p>
-            <span className="text-gray-500 text-sm">Sign up to access</span>
-          </div>
+            <span className="text-primary font-semibold text-sm">Sign up to start →</span>
+          </Link>
 
-          <div className="group bg-gradient-to-br from-primary-light/5 to-primary-light/10 rounded-xl shadow-lg p-6 border-l-4 border-primary-light">
+          <Link
+            href="/register"
+            className="group bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all hover:scale-105 border-l-4 border-primary cursor-pointer"
+          >
             <div className="flex items-center gap-3 mb-4">
-              <Users className="w-6 h-6 text-primary-light" />
+              <Users className="w-6 h-6 text-primary" />
               <h3 className="text-xl font-bold text-gray-900">Collaborations</h3>
             </div>
             <p className="text-gray-600 mb-2">
               Find research partners worldwide
             </p>
-            <span className="text-gray-500 text-sm">Sign up to access</span>
-          </div>
+            <span className="text-primary font-semibold text-sm">Sign up to start →</span>
+          </Link>
         </div>
 
         {/* Final CTA */}
