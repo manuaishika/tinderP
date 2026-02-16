@@ -94,12 +94,13 @@ export default async function Home() {
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all hover:scale-105 border-t-4 border-primary"
+                  className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2 border-t-4 border-primary animate-fade-in cursor-pointer group"
+                  style={{ animationDelay: `${idx * 100}ms` }}
                 >
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <Icon className="w-7 h-7 text-primary" />
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-300 group-hover:rotate-6">
+                    <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform duration-300" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
                   <p className="text-gray-600">{feature.description}</p>
                 </div>
               )

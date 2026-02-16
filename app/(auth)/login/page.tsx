@@ -24,10 +24,16 @@ export default function LoginPage() {
         redirect: false,
       })
 
+      console.log('Login result:', result)
+
       if (result?.error) {
-        setError('Invalid email or password')
-      } else {
+        console.error('Login error:', result.error)
+        setError('Invalid email or password. Please check your credentials and try again.')
+      } else if (result?.ok) {
         router.push('/dashboard')
+        router.refresh()
+      } else {
+        setError('Login failed. Please try again.')
       }
     } catch (err) {
       setError('Something went wrong. Please try again.')

@@ -54,10 +54,12 @@ export default function RegisterPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        setError(data.error || 'Something went wrong')
+        console.error('Registration failed:', data)
+        setError(data.error || data.detail || 'Registration failed. Please try again.')
         return
       }
 
+      // Successfully registered - redirect to login
       router.push('/login?registered=true')
     } catch (err) {
       setError('Something went wrong. Please try again.')
